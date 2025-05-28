@@ -19,6 +19,17 @@ public:
   const int Update();
 
 private:
+  const int ParseMove(std::string &move, size_t *parsed_row,
+                      size_t *parsed_col);
+  const int PollMove();
+  const int WaitForMove();
+  const int SendMove(std::string &move);
+  const int SplitResponse(std::string &response, std::string &move,
+                          std::string &player);
+
+private:
   Hev::TBD *m_socket;
   TicTacToe m_state;
+  bool m_my_turn;
+  Player m_me;
 };
