@@ -46,10 +46,17 @@ const int Peer::Update() {
     } else {
       status = WaitForMove();
     }
-    if (status & GAME_OVER || status == SOCKET_CLOSED) {
+
+    if (((status & GAME_OVER) == GAME_OVER)) {
       finished = true;
     }
+    if (status == SOCKET_CLOSED) {
+      std::cout << "Lost connection to peer\n";
+      finished = true;
+      break;
+    }
     system("clear");
+    std::cout << status << '\n';
     m_state.PrintBoard();
   } while (!finished);
   return 0;
@@ -111,7 +118,7 @@ const int Peer::WaitForMove() {
 
   size_t row, col;
   ParseMove(move, &row, &col);
-  m_state.MakeMove((Player)player[0], row, col);
+  status = m_state.MakeMove((Player)player[0], row, col);
 
   if (status != INVALID_MOVE) {
     m_my_turn = true;

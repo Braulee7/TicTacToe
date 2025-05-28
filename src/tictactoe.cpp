@@ -17,6 +17,11 @@ TicTacToe::TicTacToe()
 
 void TicTacToe::PrintBoard() const {
   char row_char = 'A';
+  if (m_state == State::WIN) {
+    std::cout << "Player " << (char)m_winner << " WINS!!!\n";
+  } else if (m_state == State::DRAW) {
+    std::cout << "Game ends in DRAW\n";
+  }
   for (size_t i = 0; i < MAX_ROWS; i++) {
     std::cout << "\033[32m" << row_char << ": " << "\033[0m";
     for (size_t j = 0; j < m_board[i].length(); j++) {
