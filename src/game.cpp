@@ -1,4 +1,5 @@
 #include "game.h"
+#include "errors.h"
 #include "peer.h"
 #include <getopt.h>
 #include <iostream>
@@ -11,6 +12,30 @@ Game::Game(int argc, char **argv) : m_client(nullptr) {
 Game::~Game() {
   if (m_client)
     delete m_client;
+}
+
+void Game::Run() {
+  if (!m_client) {
+    std::cout << "Game not initialized properly, no client\n";
+    return;
+  }
+  bool finished = false;
+  m_client->Draw();
+  do {
+    int status = 0;
+    status = m_client->Update();
+    if (((status & GAME_OVER) == GAME_OVER)) {
+      finished = true;
+    }
+    if (status == SOCKET_CLOSED) {
+      std::cout << "Lost connection to peer\n";
+      finished = true;
+      break;
+    }
+    system("clear");
+    std::cout << status << '\n';
+    m_client->Draw();
+  } while (!finished);
 }
 
 // options for the command line
@@ -78,7 +103,7 @@ void Game::ParseCommandLine(int argc, char **argv) {
       PrintHelp();
       exit(0);
     default: /* '?' */
-      std::cout << "Unknown option [" << opt << "]\n";
+      std::cout << "Unknown option [" << (char)opt << "]\n";
       exit(EXIT_FAILURE);
     }
   }
@@ -97,22 +122,29 @@ void Game::ParseCommandLine(int argc, char **argv) {
 
 void Game::PrintHelp() {
   std::cout
-      << "Usage: -l --listen <ip address> \t Change the local ip port to "
+      << "Tic-Tac-Toe game <CS494P @ Portland State University>\n-l --listen "
+         "<ip address> \t Change the local ip port to "
          "listen on\n"
-      << "-p --port <number> \t Change local port to listen on \n"
+      << "-p --port <number> \t\t Change local port to listen on \n"
       << "-c --connect ?<ip address> \t Set this client to connect to a "
-         "peer on the\n\tgiven address if any. If none is given client will "
-         "connect to default ip address 127.0.01. If neither this n'or "
-         "the\ninvite flag is given, the client will be set to connect to the "
-         "default ip\n"
+         "peer on the\n\t\t\t\t given address if any. If none is given "
+         "client\n\t\t\t\t will "
+         "connect to default ip address 127.0.01.\n\t\t\t\t If neither this "
+         "n'or the invite flag is given, the\n\t\t\t\t"
+         " client will be set to connect to the default ip\n"
       << "-i --invite ?<ip address> \t Set this client to invite and wait for "
-         "a connection\n\tto the given ip address if any. If none is given, "
-         "client will invite the default ip address of 127.0.0.1. If neither "
+         "a connection\n\t\t\t\t to the given ip address if any. If none "
+         "\n\t\t\t\t "
+         "is given, "
+         "client will invite the default ip address of\n\t\t\t\t 127.0.0.1. If "
+         "neither "
          "this n'or "
-         "the\ninvite flag is given, the client will be set to connect to the "
+         "the invite flag is given,\n\t\t\t\t the client will be set to "
+         "connect "
+         "to the "
          "default ip\n"
       << "-o --other-port <number> \t Give a different peer port to connect "
-         "to. If this\nthis option is ommitted the client will try to connect "
-         "to a peer on\nport 5000\n"
-      << "-h --help \t display this message\n";
+         "to. If this\n\t\t\t\t this option is ommitted the client will try "
+         "to\n\t\t\t\t connect to a peer on port 5000\n"
+      << "-h --help \t\t\t display this message\n";
 }

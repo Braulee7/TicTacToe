@@ -1,11 +1,6 @@
-#include "peer.h"
-#include <cstring>
-#include <iostream>
-#include <memory>
+#include "game.h"
 
-std::unique_ptr<uint8_t[]> CreateBuffer(const char *message);
-
-int main(int argc, const char **argv) {
+int main(int argc, char **argv) {
   // if (argc > 1) {
   //   Peer listener;
   //   if (listener.Invite("127.0.0.1", 5001) != 0) {
@@ -24,5 +19,7 @@ int main(int argc, const char **argv) {
   //   }
   //   connector.Update();
   // }
+  Game game(argc, argv);
+  game.Run();
   return 0;
 }

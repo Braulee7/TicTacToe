@@ -35,30 +35,19 @@ const int Peer::Connect(const char *peer_ip, const int peer_port) {
 }
 
 const int Peer::Update() {
-  bool finished = false;
-  m_state.PrintBoard();
-  do {
-    int status = 0;
-    if (m_my_turn) {
-      status = PollMove();
-      if (status == 0) {
-      }
-    } else {
-      status = WaitForMove();
+  int status = 0;
+  if (m_my_turn) {
+    status = PollMove();
+    if (status == 0) {
     }
+  } else {
+    status = WaitForMove();
+  }
+  return status;
+}
 
-    if (((status & GAME_OVER) == GAME_OVER)) {
-      finished = true;
-    }
-    if (status == SOCKET_CLOSED) {
-      std::cout << "Lost connection to peer\n";
-      finished = true;
-      break;
-    }
-    system("clear");
-    std::cout << status << '\n';
-    m_state.PrintBoard();
-  } while (!finished);
+const int Peer::Draw() {
+  m_state.PrintBoard();
   return 0;
 }
 
@@ -98,7 +87,7 @@ const int Peer::PollMove() {
   status = m_state.MakeMove(m_me, row, col);
   if (status != INVALID_MOVE) {
     m_my_turn = false;
-    SendMove(move);
+    status = SendMove(move);
   }
   return status;
 }

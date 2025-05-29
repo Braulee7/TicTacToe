@@ -17,6 +17,7 @@ public:
   const int Invite(const char *peer_ip, const int peer_port);
   const int Connect(const char *peer_ip, const int peer_port);
   const int Update();
+  const int Draw();
 
 private:
   const int ParseMove(std::string &move, size_t *parsed_row,
