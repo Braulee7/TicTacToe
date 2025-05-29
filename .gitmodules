@@ -1,0 +1,3 @@
+[submodule "HevNet"]
+	path = HevNet
+	url = git@github.com:Braulee7/HevNet.git
