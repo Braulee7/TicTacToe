@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 3.28)
 project("Tic-Tac-Toe" VERSION 0.0.1 )
 set(CMAKE_DEBUG_POSTFIX d)
 
