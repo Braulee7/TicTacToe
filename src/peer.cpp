@@ -5,7 +5,7 @@
 #include <memory>
 
 Peer::Peer(const char *ip, const int port)
-    : m_my_turn(false), m_me(Player::NONE) {
+    : m_connected(false), m_my_turn(false), m_me(Player::NONE) {
   m_socket = new Hev::TBD(Hev::TBD::Bind(ip, port));
 }
 
@@ -19,6 +19,7 @@ const int Peer::Invite(const char *peer_ip, const int peer_port) {
   if (status == 0) {
     m_my_turn = true;
     m_me = Player::X;
+    m_connected = true;
   }
   return status;
 }
@@ -30,6 +31,7 @@ const int Peer::Connect(const char *peer_ip, const int peer_port) {
   const int status = m_socket->Connect(peer_ip, peer_port);
   if (status == 0) {
     m_me = Player::O;
+    m_connected = true;
   }
   return status;
 }
@@ -38,8 +40,6 @@ const int Peer::Update() {
   int status = 0;
   if (m_my_turn) {
     status = PollMove();
-    if (status == 0) {
-    }
   } else {
     status = WaitForMove();
   }
@@ -87,7 +87,7 @@ const int Peer::PollMove() {
   status = m_state.MakeMove(m_me, row, col);
   if (status != INVALID_MOVE) {
     m_my_turn = false;
-    status = SendMove(move);
+    SendMove(move);
   }
   return status;
 }

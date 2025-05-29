@@ -24,13 +24,14 @@ void Game::Run() {
   do {
     int status = 0;
     status = m_client->Update();
-    if (((status & GAME_OVER) == GAME_OVER)) {
-      finished = true;
-    }
+
     if (status == SOCKET_CLOSED) {
       std::cout << "Lost connection to peer\n";
       finished = true;
       break;
+    }
+    if (((status & GAME_OVER) == GAME_OVER)) {
+      finished = true;
     }
     system("clear");
     std::cout << status << '\n';

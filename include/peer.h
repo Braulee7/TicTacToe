@@ -30,6 +30,7 @@ private:
 
 private:
   Hev::TBD *m_socket;
+  bool m_connected;
   TicTacToe m_state;
   bool m_my_turn;
   Player m_me;
