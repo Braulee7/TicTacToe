@@ -8,6 +8,7 @@ set(sources
 ${PROJECT_SOURCE_DIR}/src/practice.cpp
 ${PROJECT_SOURCE_DIR}/src/tictactoe.cpp
 ${PROJECT_SOURCE_DIR}/src/peer.cpp
+${PROJECT_SOURCE_DIR}/src/game.cpp
 
 )
 
