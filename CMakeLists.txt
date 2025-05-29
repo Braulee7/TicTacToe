@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.31)
 project("Tic-Tac-Toe" VERSION 0.0.1 )
 set(CMAKE_DEBUG_POSTFIX d)
 
-add_subdirectory(hev-net)
+add_subdirectory(HevNet)
 
 set(sources
 ${PROJECT_SOURCE_DIR}/src/practice.cpp
