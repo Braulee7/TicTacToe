@@ -34,7 +34,6 @@ void Game::Run() {
       finished = true;
     }
     system("clear");
-    std::cout << status << '\n';
     m_client->Draw();
   } while (!finished);
 }
