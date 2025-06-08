@@ -6,8 +6,8 @@ UDP protocol for the messaging between the users. It currently only supports
 POSIX sockets and is a command line project.
 
 ## Build
-To built the program, run `git clone <> --recursive` to make sure you also
-grab the [HevNet]() repository which holds the socket functionality.
+To built the program, run `git clone https://github.com/Braulee7/TicTacToe.git --recursive` to make sure you also
+grab the [HevNet](https://github.com/Braulee7/TicTacToe) repository which holds the socket functionality.
 The project then uses CMake to built so once everything is downloaded, simply
 run `cmake -B build` to create a the cmake build directory. Finally, to 
 compile run `cmake --build build` from the root repository and everything
